@@ -6,13 +6,11 @@ const PostList = ({posts}) => {
 
     const elements = posts.map((item) => {
         const {id, ...itemProps} = item;
-        if(itemProps.label && id){
-            return (
-                <li key={id} className='list-group-item'>
-                    <PostListItem {...itemProps}/>
-                </li>
-            )
-        }
+        return (
+            <li key={id} className='list-group-item'>
+                <PostListItem {...itemProps}/>
+            </li>
+        )
         
     });
 

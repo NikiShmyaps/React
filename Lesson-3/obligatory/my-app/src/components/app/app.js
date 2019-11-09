@@ -11,10 +11,20 @@ import './app.css';
 const App = () => {
 
     const date = [
+        false,
+        [],
+        null,
+        undefined,
         {label: 'Going to learn React', important: true, id: 'qwe'},
         {label: 'That is s ogood', important: false, id: 'werwe'},
         {label: 'I need a break...', important: false, id: 'sdfsdf'}
     ];
+
+    let checkElements = date.filter((item) => {
+        if (typeof(item) === 'object' && item !== null && Object.keys(item).length>1) {
+            return item;
+        }
+    });
 
     return (
         <div className="app">
@@ -23,7 +33,7 @@ const App = () => {
                 <SearchPanel/>
                 <PostStatusFilter/>
             </div>
-            <PostList posts={date}/>
+            <PostList posts={checkElements}/>
             <PostAddForm/>
         </div>
     );
