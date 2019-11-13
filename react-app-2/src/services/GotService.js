@@ -12,19 +12,59 @@ export default class GotService {
         return await res.json();
     }
 
-    getAllCharacters() {
-        return this.getResource('/characters?page=5&pageSize=10');
+    async getAllCharacters() {
+        const res = await this.getResource('/characters?page=5&pageSize=10');
+        //const res = await this.getResource('/chaters?page=5&pageSize=10'); // для ошибки
+        return res.map(this._transformCharacter);
+    }
+    async getCharacter(id) {
+        const character = await this.getResource(`/characters/${id}`);
+        return this._transformCharacter(character);
+    }
+    async getAllBooks() {
+        const res = await this.getResource('/books');
+        return res.map(this._transformBook);
+    }
+    async getBook(id) {
+        const book = await this.getResource(`/books/${id}`);
+        return this._transformBook(book);
+    }
+    async getAllHauses() {
+        const res = await this.getResource('/houses');
+        return res.map(this._transformHouse)
+    }
+    async getHause(id) {
+        const house = await this.getResource(`/houses/${id}`);
+        return this._transformHouse(house)
+    }
+    
+    _transformCharacter(char) {
+        return {
+            name: char.name,
+            gender: char.gender,
+            born: char.born,
+            died: char.died,
+            culture: char.culture
+        }
     }
 
-    getCharacter(id){
-        return this.getResource(`/characters/${id}`);
+    _transformHouse(house) {
+        return {
+            name: house.name,
+            region: house.region,
+            words: house.words,
+            titles: house.titles,
+            overload: house.overload,
+            ancestralWeapons: house.ancestralWeapons
+        }
     }
 
-    getAllBooks (){
-        return this.getResource('/books');
-	}
-
-	getAllHouses (){
-		return this.getResource('/houses');
-	}
+    _transformBook(book) {
+        return {
+            name: book.name,
+            numberOfPages: book.numberOfPages,
+            publisher: book.publisher,
+            released: book.released
+        }
+    }
 }
