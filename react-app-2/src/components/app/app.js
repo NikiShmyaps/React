@@ -6,9 +6,14 @@ import gotService from '../../services/gotService.js';
 import './app.sass';
 import ErrorMessage from '../errorMessage';
 import CharacterPage from '../characterPage';
+import ItemList from '../itemList';
+import CharDetails from '../charDetails';
 
 
 export default class App extends Component {
+    
+    gotService = new gotService();
+
     constructor (props) {
         super(props);
         this.state = {
@@ -94,6 +99,22 @@ export default class App extends Component {
                         </Col>
                     </Row>
                     <CharacterPage/>
+                    {/* <Row>
+                        <Col md='6'>
+                            <ItemList onCharSelected={this.onCharSelected} getData={this.gotService.getAllBooks}/>
+                        </Col>
+                        <Col md='6'>
+                            <CharDetails charId={this.state.selectedChar}/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md='6'>
+                            <ItemList onCharSelected={this.onCharSelected} getData={this.gotService.getAllHauses}/>
+                        </Col>
+                        <Col md='6'>
+                            <CharDetails charId={this.state.selectedChar}/>
+                        </Col>
+                    </Row> */}
                 </Container>
             </>
         );
