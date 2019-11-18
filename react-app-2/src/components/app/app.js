@@ -1,122 +1,68 @@
-import React, {Component} from 'react';
-import {Col, Row, Container} from 'reactstrap';
-import Header from '../header';
-import RandomChar from '../randomChar';
-import gotService from '../../services/gotService.js';
-import './app.sass';
-import ErrorMessage from '../errorMessage';
-import CharacterPage from '../characterPage';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
-
+import React, { Component } from "react";
+import { Col, Row, Container } from "reactstrap";
+import Header from "../header";
+import RandomChar from "../randomChar";
+import ErrorMessage from "../errorMessage/errorMessage";
+import CharacterPage from "../pages/characterPage/characterPage";
+import BookPage from "../pages/booksPage/booksPage";
+import HousePage from "../pages/housesPage/housesPage";
+import GotService from "../../services/gotServices";
+import "./app.sass";
 
 export default class App extends Component {
-    
-    gotService = new gotService();
+  constructor(props) {
+    super(props);
+    this.state = {
+      randomChar: true,
+      error: false
+    };
+    this.toggleRandomChar = this.toggleRandomChar.bind(this);
+  }
 
-    constructor (props) {
-        super(props);
-        this.state = {
-            randomChar: true,
-            selectedChar: 130,
-            error: false
-        };
-        this.toggleRandomChar = this.toggleRandomChar.bind(this);
+  gotService = new GotService();
+
+  componentDidCatch() {
+    console.log("error!");
+    this.setState({ error: true });
+  }
+
+  toggleRandomChar() {
+    const { randomChar } = this.state;
+    this.setState({ randomChar: !randomChar });
+    console.log(this.state);
+  }
+
+  render() {
+    if (this.state.error) {
+      return <ErrorMessage />;
     }
 
-    componentDidCatch() {
-        console.log('error');
-        this.setState({
-            error: true
-        })
-    }
+    const { randomChar } = this.state;
+    const buttonText = randomChar ? "Hide Random Character" : "Show Random Character";
+    const content = randomChar ? <RandomChar /> : null;
 
-    toggleRandomChar() {
-        const {randomChar} = this.state;
-        this.setState({randomChar: !randomChar});
-    }
+    return (
+      <>
+        <Container>
+          <Header />
+        </Container>
+        <Container>
+          <Row>
+            <Col lg={{size: 5, offset: 0}}>
+              <div className="random-char">
+                <button className="random-char__button" onClick={this.toggleRandomChar}>
+                  {buttonText}
+                </button>
+                {content}
+              </div>
+            </Col>
+          </Row>
 
-    onCharSelected = (id) => {
-        this.setState({
-            selectedChar: id
-        })
-    }
-
-
-    render() {
-        const service = new gotService();
-
-        const {randomChar} = this.state;
-        const buttonText = randomChar ? "Hide Random Character" : "Show Random Character";
-        const content = randomChar ? <RandomChar/> : null;
-
-        service.getAllCharacters().then(res => {
-            // console.log('All characters:');
-            // console.log(res);
-        });
-
-        service.getCharacter(130).then(res=>{ 
-            // console.log(`Each character:`);
-            // console.log(res);
-        });
-
-        service.getAllBooks().then(res => {
-            // console.log(`All books:`);
-            // console.log(res);
-        })
-
-        service.getAllBooks().then(res => {
-            // console.log(`Title of each book:`);
-            // res.forEach( item => console.log(item.name));
-        })
-
-        service.getAllHauses().then(res => {
-            // console.log(`All houses:`);
-            // console.log(res);
-        });
-
-        service.getAllHauses().then(res => {
-            // console.log(`Title of each house:`);
-            // res.forEach( item => console.log(item.name));
-        });
-
-        if(this.state.error){
-            return <ErrorMessage/>
-        }
-
-        return (
-            <> 
-                <Container>
-                    <Header />
-                </Container>
-                <Container>
-                    <Row>
-                        <Col lg={{size: 5, offset: 0}}>
-                            <div className="random-char">
-                                <button className="random-char__button" onClick={this.toggleRandomChar}>{buttonText}</button>
-                                {content}
-                            </div>
-                        </Col>
-                    </Row>
-                    <CharacterPage/>
-                    {/* <Row>
-                        <Col md='6'>
-                            <ItemList onCharSelected={this.onCharSelected} getData={this.gotService.getAllBooks}/>
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails charId={this.state.selectedChar}/>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList onCharSelected={this.onCharSelected} getData={this.gotService.getAllHauses}/>
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails charId={this.state.selectedChar}/>
-                        </Col>
-                    </Row> */}
-                </Container>
-            </>
-        );
-    }
+          <CharacterPage />
+          <BookPage />
+          <HousePage />
+        </Container>
+      </>
+    );
+  }
 }

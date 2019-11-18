@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import './randomChar.sass';
-import gotService from '../../services/gotService';
+import gotService from '../../services/gotServices';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
 export default class RandomChar extends Component {
 
     gotService = new gotService();
+
     state = {
         char: {},
         loading: true
@@ -49,10 +50,8 @@ export default class RandomChar extends Component {
         const spinner = loading ? <Spinner/> : null;
         const content = !(loading || error) ? <View char={char}/> : null;
 
-
-
         return (
-            <div className="random-block rounded">
+            <div className="random-block">
                 {errorMessage}
                 {spinner}
                 {content}
