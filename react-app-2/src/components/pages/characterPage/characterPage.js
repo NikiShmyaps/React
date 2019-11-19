@@ -4,31 +4,31 @@ import ItemDetails, { Field } from "../../itemDetails";
 import ErrorMessage from "../../errorMessage/errorMessage";
 import GotService from "../../../services/gotServices";
 import RowBlock from "../../rowBlock/rowBlock";
+import RandomChar from "../../randomChar/randomChar";
 
 export default class CharacterPage extends Component {
+
   gotService = new GotService();
+
   state = { selectedChar: null, error: false };
+
   componentDidCatch() {
     console.log("error!");
     this.setState({ error: true });
   }
+
   onItemSelected = id => {
     this.setState({ selectedChar: id });
   };
+
   render() {
     const itemList = (
-      <ItemList
-        getData={this.gotService.getAllCharacters}
-        onItemSelected={this.onItemSelected}
-        renderItem={item => `${item.name}(${item.gender})`}
+      <ItemList getData={this.gotService.getAllCharacters} onItemSelected={this.onItemSelected} renderItem={item => `${item.name}(${item.gender})`}
       />
     );
 
     const itemDetails = (
-      <ItemDetails
-        title="character"
-        getData={this.gotService.getCharacter}
-        itemId={this.state.selectedChar}
+      <ItemDetails title="character" getData={this.gotService.getCharacter} itemId={this.state.selectedChar}
       >
         <Field field="gender" label="Gender" />
         <Field field="born" label="Born" />
@@ -39,6 +39,11 @@ export default class CharacterPage extends Component {
     if (this.state.error) {
       return <ErrorMessage />;
     }
-    return <RowBlock left={itemList} right={itemDetails} />;
+    return (
+      <div>
+        <RandomChar/>
+        <RowBlock left={itemList} right={itemDetails}/>
+      </div>
+    );
   }
 }

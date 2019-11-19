@@ -4,16 +4,22 @@ import ItemDetails, { Field } from "../../itemDetails";
 import ErrorMessage from "../../errorMessage/errorMessage";
 import GotService from "../../../services/gotServices";
 import RowBlock from "../../rowBlock/rowBlock";
+import RandomChar from "../../randomChar/randomChar";
 
 export default class HousePage extends Component {
+
   gotService = new GotService();
+
   state = { selectedHouse: null, error: false };
+
   componentDidCatch() {
     this.setState({ error: true });
   }
+
   onItemSelected = id => {
     this.setState({ selectedHouse: id });
   };
+  
   render() {
     const itemList = (
       <ItemList
@@ -37,6 +43,11 @@ export default class HousePage extends Component {
     if (this.state.error) {
       return <ErrorMessage />;
     }
-    return <RowBlock left={itemList} right={itemDetails} />;
+    return (
+      <div>
+        <RandomChar />
+        <RowBlock left={itemList} right={itemDetails} />
+      </div>
+    );
   }
 }
