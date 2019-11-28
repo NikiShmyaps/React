@@ -1,28 +1,26 @@
-import React from 'react';
-import {MainPage, CartPage} from '../pages';
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import AppHeader from '../app-header';
-import WidthRestoService from "../hoc";
+import React from "react";
+import { MainPage, CartPage } from "../pages";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import AppHeader from "../app-header";
 
-import Background from './food-bg.jpg';
+import Background from "./food-bg.jpg";
 
-const App = ({RestoService}) => {
-    RestoService.getMenuItems();
-    return (
-        <Router>
-            <div style={{background: `url(${Background}) center center/cover no-repeat`}} className="app">
-                <AppHeader/>
-                <Switch>
-                    <Route path="/menu">
-                        <MainPage/>
-                    </Route>
-                    <Route path="/cart">
-                        <CartPage/>
-                    </Route>
-                </Switch>
-            </div>
-        </Router>
-    );
+const App = () => {
+  return (
+    <Router>
+      <div style={{background: `url(${Background}) center center/cover no-repeat`}} className="app">
+        <AppHeader />
+        <Switch>
+          <Route path="/menu">
+            <MainPage/>
+          </Route>
+          <Route path="/cart">
+            <CartPage/>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
 };
 
-export default WidthRestoService()(App);
+export default App;

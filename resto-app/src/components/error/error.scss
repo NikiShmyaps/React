@@ -1,0 +1,17 @@
+.block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #F34723;
+  height: 90vh;
+
+  &-error {
+    text-align: center;
+    font-weight: bold;
+    font-size: 50px;
+    color: #F34723;
+    background: #fff;
+    padding: 10px 30px 10px 30px;
+    border-radius: 68px;
+  }
+}
